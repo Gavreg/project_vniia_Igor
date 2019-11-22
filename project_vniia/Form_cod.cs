@@ -23,7 +23,7 @@ namespace project_vniia
             Button _filtr = new Button();
             _filtr.Location = new System.Drawing.Point(100, 85);
             _filtr.Size = new System.Drawing.Size(75, 25);
-            _filtr.Name = "Фильтровать";
+            _filtr.Text = "Фильтровать";
             _filtr.Click += _filtr_Click;
             Controls.Add(_filtr);
         }

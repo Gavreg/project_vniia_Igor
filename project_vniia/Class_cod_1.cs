@@ -8,5 +8,6 @@ namespace project_vniia
 {
     class Class_cod_1
     {
+       
     }
 }

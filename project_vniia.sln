@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.438
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "project_vniia", "project_vniia\project_vniia.csproj", "{348EA37E-FA2C-4371-9E9C-311DC1563098}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary1", "ClassLibrary1\ClassLibrary1.csproj", "{B4C10242-D032-40B9-B5FC-56D899A52EAA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{348EA37E-FA2C-4371-9E9C-311DC1563098}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{348EA37E-FA2C-4371-9E9C-311DC1563098}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{348EA37E-FA2C-4371-9E9C-311DC1563098}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4C10242-D032-40B9-B5FC-56D899A52EAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4C10242-D032-40B9-B5FC-56D899A52EAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4C10242-D032-40B9-B5FC-56D899A52EAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4C10242-D032-40B9-B5FC-56D899A52EAA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

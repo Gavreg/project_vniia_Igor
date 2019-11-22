@@ -52,6 +52,10 @@
             this.tCPM82NewDataSetBindingSource2 = new System.Windows.Forms.BindingSource(this.components);
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.button_filtr = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.button_change = new System.Windows.Forms.Button();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.button_calibr = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.блокиBindingSource2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tCPM82_NewDataSet)).BeginInit();
@@ -63,6 +67,8 @@
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToResizeColumns = false;
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -82,7 +88,7 @@
             this.dataGridView1.DataSource = this.блокиBindingSource2;
             this.dataGridView1.Location = new System.Drawing.Point(1, 12);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(623, 644);
+            this.dataGridView1.Size = new System.Drawing.Size(623, 626);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
@@ -170,20 +176,22 @@
             // 
             // dataGridView2
             // 
-            this.dataGridView2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.dataGridView2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView2.Location = new System.Drawing.Point(656, 12);
             this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.Size = new System.Drawing.Size(240, 644);
+            this.dataGridView2.Size = new System.Drawing.Size(240, 626);
             this.dataGridView2.TabIndex = 1;
             this.dataGridView2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentClick);
             // 
             // comboBox1
             // 
+            this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBox1.DisplayMember = "Номер БД";
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(732, 662);
+            this.comboBox1.Location = new System.Drawing.Point(732, 657);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
             this.comboBox1.TabIndex = 2;
@@ -214,7 +222,8 @@
             // 
             // button_filtr
             // 
-            this.button_filtr.Location = new System.Drawing.Point(12, 662);
+            this.button_filtr.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button_filtr.Location = new System.Drawing.Point(10, 654);
             this.button_filtr.Name = "button_filtr";
             this.button_filtr.Size = new System.Drawing.Size(75, 23);
             this.button_filtr.TabIndex = 3;
@@ -222,11 +231,54 @@
             this.button_filtr.UseVisualStyleBackColor = true;
             this.button_filtr.Click += new System.EventHandler(this.button_filtr_Click);
             // 
+            // textBox1
+            // 
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.textBox1.Location = new System.Drawing.Point(145, 659);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.TabIndex = 4;
+            // 
+            // button_change
+            // 
+            this.button_change.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button_change.Location = new System.Drawing.Point(288, 659);
+            this.button_change.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button_change.Name = "button_change";
+            this.button_change.Size = new System.Drawing.Size(75, 19);
+            this.button_change.TabIndex = 5;
+            this.button_change.Text = "Замена";
+            this.button_change.UseVisualStyleBackColor = true;
+            this.button_change.Click += new System.EventHandler(this.button_change_Click);
+            // 
+            // textBox2
+            // 
+            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.textBox2.Location = new System.Drawing.Point(406, 659);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(115, 20);
+            this.textBox2.TabIndex = 6;
+            // 
+            // button_calibr
+            // 
+            this.button_calibr.Location = new System.Drawing.Point(544, 655);
+            this.button_calibr.Name = "button_calibr";
+            this.button_calibr.Size = new System.Drawing.Size(100, 23);
+            this.button_calibr.TabIndex = 7;
+            this.button_calibr.Text = "Калибровка";
+            this.button_calibr.UseVisualStyleBackColor = true;
+            this.button_calibr.Click += new System.EventHandler(this.button_calibr_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(913, 695);
+            this.Controls.Add(this.button_calibr);
+            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.button_change);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button_filtr);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.dataGridView2);
@@ -241,6 +293,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.tCPM82NewDataSetBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tCPM82NewDataSetBindingSource2)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -269,6 +322,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn sGUIDDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewImageColumn sLineageDataGridViewImageColumn;
         private System.Windows.Forms.Button button_filtr;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button button_change;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Button button_calibr;
     }
 }
 
