@@ -18,18 +18,21 @@ namespace project_vniia
         event EventHandler FileOpenClick;
         event EventHandler FileSaveClick;
         event EventHandler ContentChanged;
+       
     }
         public partial class Form_calibr : Form, IMainForm
     {
-       
+        bool flag_save=false;
+
         public Form_calibr()
         {
             InitializeComponent();
+
             butOpenFile.Click += ButOpenFile_Click;
             butSelectFile.Click += ButSelectFile_Click;
             butSaveFile.Click += ButSaveFile_Click;
-            fldContent.TextChanged += FldContent_TextChanged;
 
+            fldContent.TextChanged += FldContent_TextChanged;
         }
 
        
@@ -66,8 +69,10 @@ namespace project_vniia
         }
 
         private void ButSaveFile_Click(object sender, EventArgs e)
-        {
-            if (FileSaveClick != null) FileSaveClick(this, EventArgs.Empty);
+        { 
+            if (FileSaveClick != null && flag_save) FileSaveClick(this, EventArgs.Empty);
+            flag_save = false; // для исключения ошибки сохранения файла если зайти ещё раз и 
+                               //не выбирать файл(требует всегда выбирать)
         }
         
         private void Form_calibr_Load(object sender, EventArgs e)
@@ -76,25 +81,26 @@ namespace project_vniia
         }
 
         private void button_calibr_Click(object sender, EventArgs e) //не существ
-        {
-            SaveFileDialog save = new SaveFileDialog();
-            if (save.ShowDialog() == DialogResult.OK)
-                //File.AppendAllText(save.FileName, textBox_calibr.Text);
-                using (StreamWriter writer_calibr = new StreamWriter(save.FileName, true, Encoding.Default))
-                {
-                    writer_calibr.WriteLine(fldContent.Text);
-
-                }
+        { if (!flag_save)
+            {
+                SaveFileDialog save = new SaveFileDialog();
+                if (save.ShowDialog() == DialogResult.OK)
+                    //File.AppendAllText(save.FileName, textBox_calibr.Text);
+                    using (StreamWriter writer_calibr = new StreamWriter(save.FileName, true, Encoding.Default))
+                    {
+                        writer_calibr.WriteLine(fldContent.Text);
+                    }
+            }
         }
 
         private void butSelectFile_Click_1(object sender, EventArgs e)
         {
-
+            flag_save = true;
         }
 
         private void butOpenFile_Click_1(object sender, EventArgs e)
         {
-
+            flag_save = true; 
         }
     }
 }

@@ -243,7 +243,7 @@
             // 
             this.button_change.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.button_change.Location = new System.Drawing.Point(288, 659);
-            this.button_change.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button_change.Margin = new System.Windows.Forms.Padding(2);
             this.button_change.Name = "button_change";
             this.button_change.Size = new System.Drawing.Size(75, 19);
             this.button_change.TabIndex = 5;
@@ -255,13 +255,14 @@
             // 
             this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.textBox2.Location = new System.Drawing.Point(406, 659);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(115, 20);
             this.textBox2.TabIndex = 6;
             // 
             // button_calibr
             // 
+            this.button_calibr.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.button_calibr.Location = new System.Drawing.Point(544, 655);
             this.button_calibr.Name = "button_calibr";
             this.button_calibr.Size = new System.Drawing.Size(100, 23);
