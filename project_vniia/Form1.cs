@@ -10,11 +10,13 @@ using System.Windows.Forms;
 using System.Data.OleDb;
 using System.IO;
 
+
 namespace project_vniia
 {
     public partial class Form1 : Form
     {
-        
+
+
         DataSet ds = new DataSet();
         
         public int i, combobox;
@@ -407,8 +409,10 @@ namespace project_vniia
 
         private void button_calibr_Click(object sender, EventArgs e)
         {
-           Form_calibr calibr = new Form_calibr();
-           calibr.Show();
+           //Form_calibr calibr = new Form_calibr();
+           //calibr.Show();
+            Calibr calibr = new Calibr();
+            calibr.Main_calibr();
         }
 
        
@@ -416,20 +420,19 @@ namespace project_vniia
         {
             Form_cod cod = new Form_cod();
             cod.Show();
-          
-          
-                
-                //изменить конкретную табл которая открыта в датагридвью2
-                //OleDbDataAdapter dataAdapter_sv = new OleDbDataAdapter(cmdText1, conString); // only block metro
-                //dic["БлокиМетро"] = ds;
-                //ds.Clear();
-                //dataAdapter.Fill(ds, srcTable: "[БлокиМетро]");
-                //dataGridView2.DataSource = ds.Tables[0].DefaultView;
 
-                /// не открывает файл, переместить код; убрать ошибки из замены
-                /// добавить текст файл с записями о замене
-                ///             !!!!! узнать номер строки тк не возможно будет вторую замену сделать
-           
+            
+            //изменить конкретную табл которая открыта в датагридвью2
+            //OleDbDataAdapter dataAdapter_sv = new OleDbDataAdapter(cmdText1, conString); // only block metro
+            //dic["БлокиМетро"] = ds;
+            //ds.Clear();
+            //dataAdapter.Fill(ds, srcTable: "[БлокиМетро]");
+            //dataGridView2.DataSource = ds.Tables[0].DefaultView;
+
+            /// не открывает файл, переместить код; убрать ошибки из замены
+            /// добавить текст файл с записями о замене
+            ///             !!!!! узнать номер строки тк не возможно будет вторую замену сделать
+
         }
     }
 }
