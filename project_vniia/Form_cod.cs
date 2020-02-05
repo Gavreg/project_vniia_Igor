@@ -14,14 +14,15 @@ namespace project_vniia
 {
     public partial class Form_cod : Form
     {
-        DataSet ds = new DataSet();
-        Dictionary<string, DataSet> dic = new Dictionary<string, DataSet>();
-        /// из-за добавления хз сработает ли как надо--закомметила всё- не будет работать
-       
+        public Dictionary<string, DataSet> set;
+        public Button But_peregruzka;
+
+        DataSet ds;
 
         TextBox zamena = new TextBox();
         TextBox zamena_1 = new TextBox();
         Button _zamena = new Button();
+
         public Form_cod()
         {
             InitializeComponent();
@@ -40,8 +41,15 @@ namespace project_vniia
             _zamena.Text = "Замена";
             _zamena.Click += _zamena_Click;
             Controls.Add(_zamena);
+
+            FormClosed += Form_cod_FormClosed;
         }
-        // massiv sv_tables for zamena
+
+        private void Form_cod_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            But_peregruzka.Visible = false;
+        }
+
         public string[] vs = new string[9] {"БлокиМетро", "Замечания по БД", "КАНы", "ОперацииМетро", "Проверка",
             "ПроверкаТСРМ61", "Работы по БД", "Термокалибровка", "null" }; // системы в сборе---
         private string sql1_sv;
@@ -49,13 +57,17 @@ namespace project_vniia
         
         private void _zamena_Click(object sender, EventArgs e)
         {
+            ds = new DataSet();
+            ds = set["Блоки"];
+
+
             #region tabl1
             var conn = new OleDbConnection(Form1.conString);
             conn.Open();
-            string sql = "SELECT [Тип БД], [Номер ФЭУ], [Номинальное U], Примечания, Местоположение, " +
-                "[Отметка выполнения], Кан FROM Блоки WHERE [Номер БД] = '" + zamena_1.Text + "'";
-            string sql1 = "SELECT [Тип БД], [Номер ФЭУ], [Номинальное U], Примечания, Местоположение, " +
-                "[Отметка выполнения], Кан FROM Блоки WHERE [Номер БД] = '" + zamena.Text + "'";
+            string sql = "SELECT [Тип_БД], [Номер_ФЭУ], [Номинальное_U], Примечания, Местоположение, " +
+                "[Отметка_выполнения], Кан FROM Блоки WHERE [Номер_БД] = '" + zamena_1.Text + "'";
+            string sql1 = "SELECT [Тип_БД], [Номер_ФЭУ], [Номинальное_U], Примечания, Местоположение, " +
+                "[Отметка_выполнения], Кан FROM Блоки WHERE [Номер_БД] = '" + zamena.Text + "'";
             var command = new OleDbCommand(sql, conn);
             var command1 = new OleDbCommand(sql1, conn);
 
@@ -92,18 +104,18 @@ namespace project_vniia
 
             var command2 = new OleDbCommand();
             command2.Connection = conn;
-            command2.CommandText = "UPDATE Блоки SET [Тип БД] = '" + mass1[0] + "', " +
-                "[Номер ФЭУ] = '" + mass1[1] + "',[Номинальное U]= '" + mass1[2] + "', " +
+            command2.CommandText = "UPDATE Блоки SET [Тип_БД] = '" + mass1[0] + "', " +
+                "[Номер_ФЭУ] = '" + mass1[1] + "',[Номинальное_U]= '" + mass1[2] + "', " +
                 "Примечания= '" + mass1[3] + "',Местоположение = '" + mass1[4] + "', " +
-                "[Отметка выполнения] = '" + mass1[5] + "',Кан = '" + mass1[6] + "' " +
-                "WHERE [Номер БД] = '" + zamena_1.Text + "'";
+                "[Отметка_выполнения] = '" + mass1[5] + "',Кан = '" + mass1[6] + "' " +
+                "WHERE [Номер_БД] = '" + zamena_1.Text + "'";
             var command3 = new OleDbCommand();
             command3.Connection = conn;
             command3.CommandText =
-                "UPDATE Блоки SET [Тип БД] = '" + mass[0] + "', [Номер ФЭУ] = '" + mass[1] + "', " +
-                "[Номинальное U]= '" + mass[2] + "', Примечания= '" + mass[3] + "', " +
-                "Местоположение = '" + mass[4] + "', [Отметка выполнения] = '" + mass[5] + "', " +
-                "Кан = '" + mass[6] + "' WHERE [Номер БД] = '" + zamena.Text + "'";
+                "UPDATE Блоки SET [Тип_БД] = '" + mass[0] + "', [Номер_ФЭУ] = '" + mass[1] + "', " +
+                "[Номинальное_U]= '" + mass[2] + "', Примечания= '" + mass[3] + "', " +
+                "Местоположение = '" + mass[4] + "', [Отметка_выполнения] = '" + mass[5] + "', " +
+                "Кан = '" + mass[6] + "' WHERE [Номер_БД] = '" + zamena.Text + "'";
 
             int com2_rez = command2.ExecuteNonQuery();
             int com3_rez = command3.ExecuteNonQuery();
@@ -124,13 +136,7 @@ namespace project_vniia
                     writer.WriteLine(str);
                 }
             }
-
-            //не будет
-            //OleDbDataAdapter dataAdapter = new OleDbDataAdapter(Form1.cmdText12, Form1.conString);
-            //dic["Блоки"] = ds;
-            //ds.Clear();
-            //dataAdapter.Fill(ds, srcTable: "[Блоки]");
-            //Form1.dataGridView1.DataSource = ds.Tables[0].DefaultView;
+            
             #endregion
             //////////////////////////
 
@@ -144,70 +150,70 @@ namespace project_vniia
                 switch (vs[v])
                 {
                     case "БлокиМетро":
-                        sql_sv = "SELECT [Номер записи],Местоположение, Состояние, [Чувствительность, пороги], [Пуассон 8 часов], " +
-                                "Герметизация, [Минимальный ШИМ], [Датчик присутствия], Примечание FROM БлокиМетро " +
-                                "WHERE [Номер блока] = '" + zamena_1.Text + "'";
-                        sql1_sv = "SELECT [Номер записи],Местоположение, Состояние, [Чувствительность, пороги], [Пуассон 8 часов], " +
-                                "Герметизация, [Минимальный ШИМ], [Датчик присутствия], Примечание FROM БлокиМетро " +
-                                "WHERE [Номер блока] = '" + zamena.Text + "'";
+                        sql_sv = "SELECT [Номер_записи],Местоположение, Состояние, [Чувствительность,_пороги], [Пуассон_8_часов], " +
+                                "Герметизация, [Минимальный_ШИМ], [Датчик_присутствия], Примечание FROM БлокиМетро " +
+                                "WHERE [Номер_блока] = '" + zamena_1.Text + "'";
+                        sql1_sv = "SELECT [Номер_записи],Местоположение, Состояние, [Чувствительность,_пороги], [Пуассон_8_часов], " +
+                                "Герметизация, [Минимальный_ШИМ], [Датчик_присутствия], Примечание FROM БлокиМетро " +
+                                "WHERE [Номер_блока] = '" + zamena.Text + "'";
                         num_tabl = 1;
                         break;
                     case "Замечания по БД":
-                        sql_sv = "SELECT [Номер записи],[Дата заметки],[Cs при Uном], Заметка FROM [Замечания по БД] " +
-                                "WHERE [Номер блока]  = '" + zamena_1.Text + "'";
-                        sql1_sv = "SELECT [Номер записи],[Дата заметки],[Cs при Uном], Заметка FROM [Замечания по БД] " +
-                                "WHERE [Номер блока]  = '" + zamena.Text + "'";
+                        sql_sv = "SELECT [Номер_записи],[Дата_заметки],[Cs_при_Uном], Заметка FROM [Замечания по БД] " +
+                                "WHERE [Номер_блока]  = '" + zamena_1.Text + "'";
+                        sql1_sv = "SELECT [Номер_записи],[Дата_заметки],[Cs_при_Uном], Заметка FROM [Замечания по БД] " +
+                                "WHERE [Номер_блока]  = '" + zamena.Text + "'";
                         num_tabl = 2;
                         break;
                     case "КАНы":
-                        sql_sv = "SELECT [Номер записи], [Дата открытия], [Номер КАНа], [Причина заброкования], Состояние, " +
-                            "[Дата закрытия], Примечания FROM КАНы WHERE [Номер БД]  = '" + zamena_1.Text + "'";
-                        sql1_sv = "SELECT [Номер записи],[Дата открытия], [Номер КАНа], [Причина заброкования], Состояние, " +
-                            "[Дата закрытия], Примечания FROM КАНы WHERE [Номер БД]  = '" + zamena.Text + "'";
+                        sql_sv = "SELECT [Номер_записи], [Дата_открытия], [Номер_КАНа], [Причина_заброкования], Состояние, " +
+                            "[Дата_закрытия], Примечания FROM КАНы WHERE [Номер_БД]  = '" + zamena_1.Text + "'";
+                        sql1_sv = "SELECT [Номер_записи], [Дата_открытия], [Номер_КАНа], [Причина_заброкования], Состояние, " +
+                            "[Дата_закрытия], Примечания FROM КАНы WHERE [Номер_БД]  =  '" + zamena.Text + "'";
                         num_tabl = 3;
                         break;
                     case "ОперацииМетро":
-                        sql_sv = "SELECT [Номер записи],Дата, Операции FROM ОперацииМетро " +
-                            "WHERE [Номер блока]  = '" + zamena_1.Text + "'";
-                        sql1_sv = "SELECT [Номер записи],Дата, Операции FROM ОперацииМетро " +
-                            "WHERE [Номер блока]  = '" + zamena.Text + "'";
+                        sql_sv = "SELECT [Номер_записи],Дата, Операции FROM ОперацииМетро " +
+                            "WHERE [Номер_блока]  = '" + zamena_1.Text + "'";
+                        sql1_sv = "SELECT [Номер_записи],Дата, Операции FROM ОперацииМетро " +
+                            "WHERE [Номер_блока]  = '" + zamena.Text + "'";
                         num_tabl = 4;
                         break;
                     case "Проверка":
-                        sql_sv = "SELECT [Номер записи],[Тип проверки], [Дата проверки], [Канал Cs], [Канал Св], Пороги," +
-                            " [S Cs 10 см], [S Cs 50 см], [S U 50 см], [S Pu 50 см], [Нестабильность фона], " +
-                            "[Колличество срабатываний], Q, [Ложные срабатывания], Примечание " +
-                            "FROM Проверка WHERE [Номер БД]  = '" + zamena_1.Text + "'";
-                        sql1_sv = "SELECT [Номер записи],[Тип проверки], [Дата проверки], [Канал Cs], [Канал Св], Пороги," +
-                            " [S Cs 10 см], [S Cs 50 см], [S U 50 см], [S Pu 50 см], [Нестабильность фона], " +
-                            "[Колличество срабатываний], Q, [Ложные срабатывания], Примечание " +
-                            "FROM Проверка WHERE [Номер БД]  = '" + zamena.Text + "'";
+                        sql_sv = "SELECT [Номер_записи],[Тип_проверки], [Дата_проверки], [Канал_Cs], [Канал_Св], Пороги," +
+                            " [S_Cs_10_см], [S_Cs_50_см], [S_U_50_см], [S_Pu_50_см], [Нестабильность_фона], " +
+                            "[Колличество_срабатываний], Q, [Ложные_срабатывания], Примечание " +
+                            "FROM Проверка WHERE [Номер_БД]  = '" + zamena_1.Text + "'";
+                        sql1_sv = "SELECT [Номер_записи],[Тип_проверки], [Дата_проверки], [Канал_Cs], [Канал_Св], Пороги," +
+                            " [S_Cs_10_см], [S_Cs_50_см], [S_U_50_см], [S_Pu_50_см], [Нестабильность_фона], " +
+                            "[Колличество_срабатываний], Q, [Ложные_срабатывания], Примечание " +
+                            "FROM Проверка WHERE [Номер_БД]  = '" + zamena.Text + "'";
                         num_tabl = 5;
                         break;
                     case "ПроверкаТСРМ61":
-                        sql_sv = "SELECT [Номер записи],Дата, 'A(Cs)нач', 'А(Св)нач', 'А(Cs)настр', 'А(Св)настр', [Порог по фону], " +
-                            "[Порог по Cs], [Чувств Cs 10см], Примечание FROM ПроверкаТСРМ61 " +
-                            "WHERE [Номер БД]  = '" + zamena_1.Text + "'";
+                        sql_sv = "SELECT [Номер_записи],Дата, 'A(Cs)нач', 'А(Св)нач', 'А(Cs)настр', 'А(Св)настр', [Порог_по_фону], " +
+                            "[Порог_по_Cs], [Чувств_Cs_10см], Примечание FROM ПроверкаТСРМ61 " +
+                            "WHERE [Номер_БД]  = '" + zamena_1.Text + "'";
 
-                        sql1_sv = "SELECT [Номер записи],Дата, 'A(Cs)нач', 'А(Св)нач', 'А(Cs)настр', 'А(Св)настр', [Порог по фону], " +
-                            "[Порог по Cs], [Чувств Cs 10см], Примечание FROM ПроверкаТСРМ61 " +
-                            "WHERE [Номер БД]  = '" + zamena.Text + "'";
+                        sql1_sv = "SELECT [Номер_записи],Дата, 'A(Cs)нач', 'А(Св)нач', 'А(Cs)настр', 'А(Св)настр', [Порог_по_фону], " +
+                            "[Порог_по_Cs], [Чувств_Cs_10см], Примечание FROM ПроверкаТСРМ61 " +
+                            "WHERE [Номер_БД]  = '" + zamena.Text + "'";
                         num_tabl = 6;
                         break;
                     case "Работы по БД":
-                        sql_sv = "SELECT [Номер записи],[Выполняемая работа], Отметка FROM [Работы по БД]" +
-                            "WHERE[Номер изделия] = '" + zamena_1.Text + "'";
-                        sql1_sv = "SELECT [Номер записи],[Выполняемая работа], Отметка FROM [Работы по БД]" +
-                            "WHERE[Номер изделия] = '" + zamena.Text + "'";
+                        sql_sv = "SELECT [Номер_записи],[Выполняемая_работа], Отметка FROM [Работы_по_БД]" +
+                            "WHERE[Номер_изделия] = '" + zamena_1.Text + "'";
+                        sql1_sv = "SELECT [Номер_записи],[Выполняемая_работа], Отметка FROM [Работы_по_БД]" +
+                            "WHERE[Номер_изделия] = '" + zamena.Text + "'";
                         num_tabl = 7;
                         break;
                     case "Термокалибровка":
-                        sql_sv = "SELECT [Номер записи],Дата, Температура, [Температура (КОД)],[Температура (Проц)]," +
-                            "[U (код)],[U (ШИМ)], [U (измеренное)], [Код светодиода], [U (при коде Uном)]," +
-                            " Примечание FROM Термокалибровка WHERE [Номер БД]  = '" + zamena_1.Text + "'";
-                        sql1_sv = "SELECT [Номер записи],Дата, Температура, [Температура (КОД)],[Температура (Проц)]," +
-                            "[U (код)],[U (ШИМ)], [U (измеренное)], [Код светодиода], [U (при коде Uном)]," +
-                            " Примечание FROM Термокалибровка WHERE [Номер БД]  = '" + zamena.Text + "'";
+                        sql_sv = "SELECT [Номер_записи],Дата, Температура, [Температура_(КОД)],[Температура_(Проц)]," +
+                            "[U_(код)],[U_(ШИМ)], [U_(измеренное)], [Код_светодиода], [U_(при_коде_Uном)]," +
+                            " Примечание FROM Термокалибровка WHERE [Номер_БД]  = '" + zamena_1.Text + "'";
+                        sql1_sv = "SELECT [Номер_записи],Дата, Температура, [Температура_(КОД)],[Температура_(Проц)]," +
+                            "[U_(код)],[U_(ШИМ)], [U_(измеренное)], [Код_светодиода], [U_(при_коде_Uном)]," +
+                            " Примечание FROM Термокалибровка WHERE [Номер_БД]  = '" + zamena.Text + "'";
                         num_tabl = 8;
                         break;
 
@@ -222,8 +228,7 @@ namespace project_vniia
                 { break; }
                 var command_sv = new OleDbCommand(sql_sv, conn_tabl_sv);
                 var command1_sv = new OleDbCommand(sql1_sv, conn_tabl_sv);
-
-
+                
                 OleDbDataReader num_sv = command_sv.ExecuteReader();
                 OleDbDataReader num_sv1 = command1_sv.ExecuteReader();
 
@@ -256,62 +261,64 @@ namespace project_vniia
 
                     var command3_sv = new OleDbCommand();
                     command3_sv.Connection = conn_tabl_sv;
+
+                    ///НЕПРАВИЛЬНАЯ ЗАМЕНА СТРОК-> ИСПРАВИТЬ
                     switch (num_tabl)
                     {
                         case 1:
-                            command2_sv.CommandText = "UPDATE БлокиМетро SET  SET [Номер блока]  = '" + zamena.Text + "'" +
-                                "WHERE [Номер блока]  = '" + zamena_1.Text + "'";
+                            command2_sv.CommandText = "UPDATE БлокиМетро SET [Номер_блока]  = '" + zamena.Text + "'" +
+                                "WHERE [Номер_блока]  = '" + zamena_1.Text + "'";
 
                             command3_sv.CommandText =
-                           "UPDATE БлокиМетро SET   [Номер блока]  = '" + zamena_1.Text + "'" +
-                                "WHERE [Номер блока]  = '" + zamena.Text + "' ";
+                           "UPDATE БлокиМетро SET   [Номер_блока]  = '" + zamena_1.Text + "'" +
+                                "WHERE [Номер_блока]  = '" + zamena.Text + "' ";
                             break;
                         case 2:
-                            command2_sv.CommandText = "UPDATE [Замечания по БД] SET [Номер блока]  = '" + zamena.Text + "'" +
-                                "WHERE [Номер блока]  = '" + zamena_1.Text + "'";
+                            command2_sv.CommandText = "UPDATE [Замечания по БД] SET [Номер_блока]  = '" + zamena.Text + "'" +
+                                "WHERE [Номер_блока]  = '" + zamena_1.Text + "'";
 
-                            command3_sv.CommandText = "UPDATE [Замечания по БД] SET [Номер блока]  = '" + zamena_1.Text + "'" +
-                                "WHERE [Номер блока]  = '" + zamena.Text + "' ";
+                            command3_sv.CommandText = "UPDATE [Замечания по БД] SET [Номер_блока]  = '" + zamena_1.Text + "'" +
+                                "WHERE [Номер_блока]  = '" + zamena.Text + "' ";
                             break;
                         case 3:
-                            command2_sv.CommandText = "UPDATE КАНы SET SET [Номер БД]  = '" + zamena.Text + "'" +
-                            "WHERE [Номер БД]  = '" + zamena_1.Text + "'";
+                            command2_sv.CommandText = "UPDATE КАНы SET [Номер_БД]  = '" + zamena.Text + "'" +
+                            "WHERE [Номер_БД]  = '" + zamena_1.Text + "'";
 
-                            command3_sv.CommandText = "UPDATE КАНы SET [Номер БД]  = '" + zamena_1.Text + "'" +
-                            "WHERE [Номер БД]  = '" + zamena.Text + "' ";
+                            command3_sv.CommandText = "UPDATE КАНы SET [Номер_БД]  = '" + zamena_1.Text + "'" +
+                            "WHERE [Номер_БД]  = '" + zamena.Text + "' ";
                             break;
                         case 4:
-                            command2_sv.CommandText = "UPDATE ОперацииМетро SET [Номер блока]  = '" + zamena.Text + "'" +
-                            "WHERE [Номер блока]  = '" + zamena_1.Text + "'";
+                            command2_sv.CommandText = "UPDATE ОперацииМетро SET [Номер_блока]  = '" + zamena.Text + "'" +
+                            "WHERE [Номер_блока]  = '" + zamena_1.Text + "'";
 
-                            command3_sv.CommandText = "UPDATE ОперацииМетро SET [Номер блока]  = '" + zamena_1.Text + "'" +
-                            "WHERE [Номер блока]  = '" + zamena.Text + "' ";
+                            command3_sv.CommandText = "UPDATE ОперацииМетро SET [Номер_блока]  = '" + zamena_1.Text + "'" +
+                            "WHERE [Номер_блока]  = '" + zamena.Text + "' ";
                             break;
                         case 5:
-                            command2_sv.CommandText = "UPDATE Проверка SET [Номер БД]  = '" + zamena.Text + "'" +
-                            "WHERE [Номер БД]  = '" + zamena_1.Text + "' ";
+                            command2_sv.CommandText = "UPDATE Проверка SET [Номер_БД]  = '" + zamena.Text + "'" +
+                            "WHERE [Номер_БД]  = '" + zamena_1.Text + "' ";
 
-                            command3_sv.CommandText = "UPDATE Проверка SET [Номер БД]  = '" + zamena_1.Text + "'" +
-                            "WHERE [Номер БД]  = '" + zamena.Text + "' ";
+                            command3_sv.CommandText = "UPDATE Проверка SET [Номер_БД]  = '" + zamena_1.Text + "'" +
+                            "WHERE [Номер_БД]  = '" + zamena.Text + "' ";
                             break;
                         case 6:
-                            command2_sv.CommandText = "UPDATE ПроверкаТСРМ61 SET [Номер БД]  = '" + zamena.Text + "'" +
-                            "WHERE [Номер БД]  = '" + zamena_1.Text + "' ";
-                            command3_sv.CommandText = "UPDATE ПроверкаТСРМ61 SET [Номер БД]  = '" + zamena_1.Text + "'" +
-                            "WHERE [Номер БД]  = '" + zamena.Text + "' ";
+                            command2_sv.CommandText = "UPDATE ПроверкаТСРМ61 SET [Номер_БД]  = '" + zamena.Text + "'" +
+                            "WHERE [Номер_БД]  = '" + zamena_1.Text + "' ";
+                            command3_sv.CommandText = "UPDATE ПроверкаТСРМ61 SET [Номер_БД]  = '" + zamena_1.Text + "'" +
+                            "WHERE [Номер_БД]  = '" + zamena.Text + "' ";
                             break;
                         case 7:
-                            command2_sv.CommandText = "UPDATE [Работы по БД] SET [Номер изделия]  = '" + zamena.Text + "'" +
-                            "WHERE [Номер изделия]  = '" + zamena_1.Text + "' ";
-                            command3_sv.CommandText = "UPDATE [Работы по БД] SET [Номер изделия]  = '" + zamena_1.Text + "'" +
-                            "WHERE [Номер изделия]  = '" + zamena.Text + "' ";
+                            command2_sv.CommandText = "UPDATE [Работы по БД] SET [Номер_изделия]  = '" + zamena.Text + "'" +
+                            "WHERE [Номер_изделия]  = '" + zamena_1.Text + "' ";
+                            command3_sv.CommandText = "UPDATE [Работы по БД] SET [Номер_изделия]  = '" + zamena_1.Text + "'" +
+                            "WHERE [Номер_изделия]  = '" + zamena.Text + "' ";
                             break;
                         case 8:
-                            command2_sv.CommandText = "UPDATE Термокалибровка SET [Номер БД]  = '" + zamena.Text + "'" +
-                                "WHERE[Номер БД] = '" + zamena_1.Text + "'";
+                            command2_sv.CommandText = "UPDATE Термокалибровка SET [Номер_БД]  = '" + zamena.Text + "'" +
+                                "WHERE[Номер_БД] = '" + zamena_1.Text + "'";
 
-                            command3_sv.CommandText = "UPDATE Термокалибровка SET [Номер БД]  = '" + zamena_1.Text + "'" +
-                               "WHERE[Номер БД] = '" + zamena.Text + "'";
+                            command3_sv.CommandText = "UPDATE Термокалибровка SET [Номер_БД]  = '" + zamena_1.Text + "'" +
+                               "WHERE[Номер_БД] = '" + zamena.Text + "'";
                             break;
                         default:
                             break;
@@ -347,6 +354,8 @@ namespace project_vniia
             timer.Interval = 500;
             timer.Tick += Timer_Tick;
             timer.Start();
+            //для обновления данных в таблице блоки
+            But_peregruzka.PerformClick();
         }
       
         private void Timer_Tick(object sender, EventArgs e)
@@ -365,5 +374,6 @@ namespace project_vniia
         {
             
         }
+
     }
 }

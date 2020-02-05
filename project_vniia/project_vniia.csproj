@@ -61,6 +61,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Add_Blocks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Add_Blocks.Designer.cs">
+      <DependentUpon>Add_Blocks.cs</DependentUpon>
+    </Compile>
     <Compile Include="Calibr.cs" />
     <Compile Include="CalibrPresenter.cs" />
     <Compile Include="Form1.cs">
@@ -90,6 +96,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TCPM82_NewDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Zamech_BD.cs" />
+    <EmbeddedResource Include="Add_Blocks.resx">
+      <DependentUpon>Add_Blocks.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

@@ -28,40 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.номерБДDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.типБДDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.номерФЭУDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.номинальноеUDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.примечанияDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.местоположениеDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.отметкаВыполненияDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.кАНDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sColLineageDataGridViewImageColumn = new System.Windows.Forms.DataGridViewImageColumn();
-            this.sGenerationDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sGUIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sLineageDataGridViewImageColumn = new System.Windows.Forms.DataGridViewImageColumn();
-            this.блокиBindingSource2 = new System.Windows.Forms.BindingSource(this.components);
-            this.tCPM82_NewDataSet = new project_vniia.TCPM82_NewDataSet();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.cANNoteTableAdapter = new project_vniia.TCPM82_NewDataSetTableAdapters.CANNoteTableAdapter();
-            this.блокиTableAdapter = new project_vniia.TCPM82_NewDataSetTableAdapters.БлокиTableAdapter();
-            this.tCPM82NewDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.tCPM82NewDataSetBindingSource2 = new System.Windows.Forms.BindingSource(this.components);
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.button_filtr = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button_change = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.button_calibr = new System.Windows.Forms.Button();
+            this.but_saved = new System.Windows.Forms.Button();
+            this.but_peregruzka = new System.Windows.Forms.Button();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.Add_Blocks_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.блокиBindingSource2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tCPM82_NewDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tCPM82NewDataSetBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tCPM82NewDataSetBindingSource2)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -69,110 +51,14 @@
             this.dataGridView1.AllowUserToResizeColumns = false;
             this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.номерБДDataGridViewTextBoxColumn,
-            this.типБДDataGridViewTextBoxColumn,
-            this.номерФЭУDataGridViewTextBoxColumn,
-            this.номинальноеUDataGridViewTextBoxColumn,
-            this.примечанияDataGridViewTextBoxColumn,
-            this.местоположениеDataGridViewTextBoxColumn,
-            this.отметкаВыполненияDataGridViewTextBoxColumn,
-            this.кАНDataGridViewTextBoxColumn,
-            this.sColLineageDataGridViewImageColumn,
-            this.sGenerationDataGridViewTextBoxColumn,
-            this.sGUIDDataGridViewTextBoxColumn,
-            this.sLineageDataGridViewImageColumn});
-            this.dataGridView1.DataSource = this.блокиBindingSource2;
-            this.dataGridView1.Location = new System.Drawing.Point(1, 12);
+            this.dataGridView1.Location = new System.Drawing.Point(1, 49);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(623, 626);
+            this.dataGridView1.RowTemplate.DefaultCellStyle.NullValue = null;
+            this.dataGridView1.Size = new System.Drawing.Size(623, 571);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
-            // 
-            // номерБДDataGridViewTextBoxColumn
-            // 
-            this.номерБДDataGridViewTextBoxColumn.DataPropertyName = "Номер БД";
-            this.номерБДDataGridViewTextBoxColumn.HeaderText = "Номер БД";
-            this.номерБДDataGridViewTextBoxColumn.Name = "номерБДDataGridViewTextBoxColumn";
-            // 
-            // типБДDataGridViewTextBoxColumn
-            // 
-            this.типБДDataGridViewTextBoxColumn.DataPropertyName = "Тип БД";
-            this.типБДDataGridViewTextBoxColumn.HeaderText = "Тип БД";
-            this.типБДDataGridViewTextBoxColumn.Name = "типБДDataGridViewTextBoxColumn";
-            // 
-            // номерФЭУDataGridViewTextBoxColumn
-            // 
-            this.номерФЭУDataGridViewTextBoxColumn.DataPropertyName = "Номер ФЭУ";
-            this.номерФЭУDataGridViewTextBoxColumn.HeaderText = "Номер ФЭУ";
-            this.номерФЭУDataGridViewTextBoxColumn.Name = "номерФЭУDataGridViewTextBoxColumn";
-            // 
-            // номинальноеUDataGridViewTextBoxColumn
-            // 
-            this.номинальноеUDataGridViewTextBoxColumn.DataPropertyName = "Номинальное U";
-            this.номинальноеUDataGridViewTextBoxColumn.HeaderText = "Номинальное U";
-            this.номинальноеUDataGridViewTextBoxColumn.Name = "номинальноеUDataGridViewTextBoxColumn";
-            // 
-            // примечанияDataGridViewTextBoxColumn
-            // 
-            this.примечанияDataGridViewTextBoxColumn.DataPropertyName = "Примечания";
-            this.примечанияDataGridViewTextBoxColumn.HeaderText = "Примечания";
-            this.примечанияDataGridViewTextBoxColumn.Name = "примечанияDataGridViewTextBoxColumn";
-            // 
-            // местоположениеDataGridViewTextBoxColumn
-            // 
-            this.местоположениеDataGridViewTextBoxColumn.DataPropertyName = "Местоположение";
-            this.местоположениеDataGridViewTextBoxColumn.HeaderText = "Местоположение";
-            this.местоположениеDataGridViewTextBoxColumn.Name = "местоположениеDataGridViewTextBoxColumn";
-            // 
-            // отметкаВыполненияDataGridViewTextBoxColumn
-            // 
-            this.отметкаВыполненияDataGridViewTextBoxColumn.DataPropertyName = "Отметка выполнения";
-            this.отметкаВыполненияDataGridViewTextBoxColumn.HeaderText = "Отметка выполнения";
-            this.отметкаВыполненияDataGridViewTextBoxColumn.Name = "отметкаВыполненияDataGridViewTextBoxColumn";
-            // 
-            // кАНDataGridViewTextBoxColumn
-            // 
-            this.кАНDataGridViewTextBoxColumn.DataPropertyName = "КАН";
-            this.кАНDataGridViewTextBoxColumn.HeaderText = "КАН";
-            this.кАНDataGridViewTextBoxColumn.Name = "кАНDataGridViewTextBoxColumn";
-            // 
-            // sColLineageDataGridViewImageColumn
-            // 
-            this.sColLineageDataGridViewImageColumn.DataPropertyName = "s_ColLineage";
-            this.sColLineageDataGridViewImageColumn.HeaderText = "s_ColLineage";
-            this.sColLineageDataGridViewImageColumn.Name = "sColLineageDataGridViewImageColumn";
-            // 
-            // sGenerationDataGridViewTextBoxColumn
-            // 
-            this.sGenerationDataGridViewTextBoxColumn.DataPropertyName = "s_Generation";
-            this.sGenerationDataGridViewTextBoxColumn.HeaderText = "s_Generation";
-            this.sGenerationDataGridViewTextBoxColumn.Name = "sGenerationDataGridViewTextBoxColumn";
-            // 
-            // sGUIDDataGridViewTextBoxColumn
-            // 
-            this.sGUIDDataGridViewTextBoxColumn.DataPropertyName = "s_GUID";
-            this.sGUIDDataGridViewTextBoxColumn.HeaderText = "s_GUID";
-            this.sGUIDDataGridViewTextBoxColumn.Name = "sGUIDDataGridViewTextBoxColumn";
-            // 
-            // sLineageDataGridViewImageColumn
-            // 
-            this.sLineageDataGridViewImageColumn.DataPropertyName = "s_Lineage";
-            this.sLineageDataGridViewImageColumn.HeaderText = "s_Lineage";
-            this.sLineageDataGridViewImageColumn.Name = "sLineageDataGridViewImageColumn";
-            // 
-            // блокиBindingSource2
-            // 
-            this.блокиBindingSource2.DataMember = "Блоки";
-            this.блокиBindingSource2.DataSource = this.tCPM82_NewDataSet;
-            // 
-            // tCPM82_NewDataSet
-            // 
-            this.tCPM82_NewDataSet.DataSetName = "TCPM82_NewDataSet";
-            this.tCPM82_NewDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // dataGridView2
             // 
@@ -180,9 +66,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(656, 12);
+            this.dataGridView2.Location = new System.Drawing.Point(656, 49);
             this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.Size = new System.Drawing.Size(240, 626);
+            this.dataGridView2.Size = new System.Drawing.Size(245, 571);
             this.dataGridView2.TabIndex = 1;
             this.dataGridView2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentClick);
             // 
@@ -191,39 +77,17 @@
             this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBox1.DisplayMember = "Номер БД";
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(732, 657);
+            this.comboBox1.Location = new System.Drawing.Point(737, 639);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
             this.comboBox1.TabIndex = 2;
             this.comboBox1.ValueMember = "Номер БД";
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
-            // cANNoteTableAdapter
-            // 
-            this.cANNoteTableAdapter.ClearBeforeFill = true;
-            // 
-            // блокиTableAdapter
-            // 
-            this.блокиTableAdapter.ClearBeforeFill = true;
-            // 
-            // tCPM82NewDataSetBindingSource
-            // 
-            this.tCPM82NewDataSetBindingSource.DataSource = this.tCPM82_NewDataSet;
-            this.tCPM82NewDataSetBindingSource.Position = 0;
-            // 
-            // tCPM82NewDataSetBindingSource2
-            // 
-            this.tCPM82NewDataSetBindingSource2.DataSource = this.tCPM82_NewDataSet;
-            this.tCPM82NewDataSetBindingSource2.Position = 0;
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
             // button_filtr
             // 
             this.button_filtr.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button_filtr.Location = new System.Drawing.Point(10, 654);
+            this.button_filtr.Location = new System.Drawing.Point(10, 636);
             this.button_filtr.Name = "button_filtr";
             this.button_filtr.Size = new System.Drawing.Size(75, 23);
             this.button_filtr.TabIndex = 3;
@@ -234,7 +98,7 @@
             // textBox1
             // 
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBox1.Location = new System.Drawing.Point(145, 659);
+            this.textBox1.Location = new System.Drawing.Point(145, 641);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 20);
             this.textBox1.TabIndex = 4;
@@ -242,7 +106,7 @@
             // button_change
             // 
             this.button_change.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button_change.Location = new System.Drawing.Point(288, 659);
+            this.button_change.Location = new System.Drawing.Point(288, 641);
             this.button_change.Margin = new System.Windows.Forms.Padding(2);
             this.button_change.Name = "button_change";
             this.button_change.Size = new System.Drawing.Size(75, 19);
@@ -254,7 +118,7 @@
             // textBox2
             // 
             this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBox2.Location = new System.Drawing.Point(406, 659);
+            this.textBox2.Location = new System.Drawing.Point(406, 641);
             this.textBox2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(115, 20);
@@ -263,7 +127,7 @@
             // button_calibr
             // 
             this.button_calibr.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button_calibr.Location = new System.Drawing.Point(544, 655);
+            this.button_calibr.Location = new System.Drawing.Point(544, 637);
             this.button_calibr.Name = "button_calibr";
             this.button_calibr.Size = new System.Drawing.Size(100, 23);
             this.button_calibr.TabIndex = 7;
@@ -271,11 +135,61 @@
             this.button_calibr.UseVisualStyleBackColor = true;
             this.button_calibr.Click += new System.EventHandler(this.button_calibr_Click);
             // 
+            // but_saved
+            // 
+            this.but_saved.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.but_saved.Location = new System.Drawing.Point(650, 637);
+            this.but_saved.Name = "but_saved";
+            this.but_saved.Size = new System.Drawing.Size(75, 23);
+            this.but_saved.TabIndex = 8;
+            this.but_saved.Text = "Сохранить";
+            this.but_saved.UseVisualStyleBackColor = true;
+            this.but_saved.Click += new System.EventHandler(this.but_saved_Click);
+            // 
+            // but_peregruzka
+            // 
+            this.but_peregruzka.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.but_peregruzka.Location = new System.Drawing.Point(873, 633);
+            this.but_peregruzka.Name = "but_peregruzka";
+            this.but_peregruzka.Size = new System.Drawing.Size(33, 30);
+            this.but_peregruzka.TabIndex = 9;
+            this.but_peregruzka.Text = "bloki";
+            this.but_peregruzka.UseVisualStyleBackColor = true;
+            this.but_peregruzka.Visible = false;
+            this.but_peregruzka.Click += new System.EventHandler(this.but_peregruzka_Click);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(918, 24);
+            this.menuStrip1.TabIndex = 10;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Add_Blocks_ToolStripMenuItem});
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(71, 20);
+            this.toolStripMenuItem1.Text = "Добавить";
+            // 
+            // Add_Blocks_ToolStripMenuItem
+            // 
+            this.Add_Blocks_ToolStripMenuItem.Name = "Add_Blocks_ToolStripMenuItem";
+            this.Add_Blocks_ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.Add_Blocks_ToolStripMenuItem.Text = "Добавить блоки";
+            this.Add_Blocks_ToolStripMenuItem.Click += new System.EventHandler(this.добавитьБлокиToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(913, 695);
+            this.ClientSize = new System.Drawing.Size(918, 677);
+            this.Controls.Add(this.but_peregruzka);
+            this.Controls.Add(this.but_saved);
             this.Controls.Add(this.button_calibr);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.button_change);
@@ -284,49 +198,33 @@
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.menuStrip1);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.блокиBindingSource2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tCPM82_NewDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tCPM82NewDataSetBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tCPM82NewDataSetBindingSource2)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private TCPM82_NewDataSet tCPM82_NewDataSet;
-        private TCPM82_NewDataSetTableAdapters.CANNoteTableAdapter cANNoteTableAdapter;
         private System.Windows.Forms.DataGridView dataGridView2;
-        private TCPM82_NewDataSetTableAdapters.БлокиTableAdapter блокиTableAdapter;
         private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.BindingSource tCPM82NewDataSetBindingSource;
-        private System.Windows.Forms.BindingSource tCPM82NewDataSetBindingSource2;
-        private System.Windows.Forms.BindingSource блокиBindingSource2;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn номерБДDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn типБДDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn номерФЭУDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn номинальноеUDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn примечанияDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn местоположениеDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn отметкаВыполненияDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn кАНDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewImageColumn sColLineageDataGridViewImageColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn sGenerationDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn sGUIDDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewImageColumn sLineageDataGridViewImageColumn;
         private System.Windows.Forms.Button button_filtr;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button_change;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Button button_calibr;
+        private System.Windows.Forms.Button but_saved;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button but_peregruzka;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem Add_Blocks_ToolStripMenuItem;
     }
 }
 

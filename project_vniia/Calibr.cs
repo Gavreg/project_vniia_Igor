@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.OleDb;
 using System.IO;
 using System.Linq;
@@ -10,114 +11,128 @@ using System.Windows.Forms;
 namespace project_vniia
 {   class Item
     {
-        
+        public static string BD_;
+
+        public string BD { get; private set;} // [Номер БД] (Текстовый, 50)
+        public DateTime Data { get; private set; } // [Дата] (Дата/время)
+        public int T_cod { get; private set; } // [Температура (КОД)] (Числовой, целое, авто)
+        public float T_proz { get; private set; } // [Температура (Проц)] (Числовой, Одинарное с плавающей точкой)
+        public int U_cod { get; private set; } // [U (код)] (Числовой, целое, авто)
+        public int U_sh { get; private set; } // [U (ШИМ)] (Числовой, целое, авто)
+        public int U_izm { get; private set; } // [U (измеренное)] (Числовой, целое, авто)
+        public int Sv { get; private set; } // [Код светодиода] (Числовой, Длинное целое, авто)
+        public string Prim { get; private set; } // [Примечание] (Текстовый, 250)
+
         public Item(string str)
         {
-            string[] parts = str.Split('\t');
-           
-           
+            if (Calibr.one == true)
+            {
+                string[] parts = str.Split('\t');
+                BD = parts[0];
+                BD_ = BD;
+                Data = Convert.ToDateTime(parts[1]);
+                T_cod = int.Parse(parts[2]);
+                parts[3]=parts[3].Replace(".",",");
+                T_proz = float.Parse(parts[3]);
+                U_sh = int.Parse(parts[4]);
+                U_cod = int.Parse(parts[5]);
+                U_izm = int.Parse(parts[6]);
+                Sv = int.Parse(parts[7]);
+                Prim = parts[8];
+            }
+            
         }
     }
-   
+    
     class Calibr
     {
-        //public static bool one = true;
-        public void Main_calibr()
+        public static bool one = true;
+        public void Main_calibr(Form1 form1)
         {
-           
-
-            List<TPolya_Termokalibrovka> items = new List<TPolya_Termokalibrovka>();
-            TPolya_Termokalibrovka Polya_Termokalibrovka;
-            FileStream file = new FileStream(@"D:\Vnesenie_v_base\Calibr\000818_2018_03_16.log", FileMode.Open);
-            StreamReader reader = new StreamReader(file);
-
-                while(!reader.EndOfStream)
+            List<Item> items = new List<Item>();
+            List<string> Fil = Directory.GetFiles(@"D:\Vnesenie_v_base\Calibr","*.log").ToList<string>();
+            foreach (var fil in Fil)
+            {
+                items.Clear();
+                one = false;
+                StreamReader sr = new StreamReader(fil);
+                while (!sr.EndOfStream)
                 {
-                    items.Add(new TPolya_Termokalibrovka(reader.ReadLine()));
+                    items.Add(new Item(sr.ReadLine()));
+                    one = true;
                 }
-            reader.Close();
-
-            Polya_Termokalibrovka.Pole_01 = ""; // [Номер БД] (Текстовый, 50)
-            Polya_Termokalibrovka.Pole_02 = DateTime.Parse("16.06.1981"); // [Дата] (Дата/время)
-            Polya_Termokalibrovka.Pole_03 = 0; // [Температура (КОД)] (Числовой, целое, авто)
-            Polya_Termokalibrovka.Pole_04 = 0.0f; // [Температура (Проц)] (Числовой, одинарное с плавающей точкой, авто)
-            Polya_Termokalibrovka.Pole_05 = 0; // [U (код)] (Числовой, целое, авто)
-            Polya_Termokalibrovka.Pole_06 = 0; // [U (ШИМ)] (Числовой, целое, авто)
-            Polya_Termokalibrovka.Pole_07 = 0; // [U (измеренное)] (Числовой, целое, авто)
-            Polya_Termokalibrovka.Pole_08 = 0; // [Код светодиода] (Числовой, Длинное целое, авто)
-            Polya_Termokalibrovka.Pole_09 = ""; // [Примечание] (Текстовый, 250)
-            for (int i = 1; i < items.Count; i++)
+                sr.Close();
+                one = false;
+                bool del = true;
+                foreach (Item item in items)
+                {
+                    if (one == true)
                     {
                         var conn_tabl_sv = new OleDbConnection(Form1.conString);
                         try
                         {
-                            
                             conn_tabl_sv.Open();
+                            
                             var command2_sv = new OleDbCommand();
                             command2_sv.Connection = conn_tabl_sv;
 
-                            command2_sv.CommandText = "INSERT INTO " +
-                                    "[Термокалибровка] ( Дата, [Температура (КОД)],Температура, [U (при коде Uном)]," +
-                                               "[U (код)], [U (измеренное)],[Код светодиода], Примечание" +
-                                               "VALUES (@ID_02,@ID_03,@ID_04,@ID_05,@ID_06,@ID_07,@ID_08,@ID_09) WHERE [Номер БД] = @ID_01";
-                            //command2_sv.CommandText = "UPDATE Термокалибровка SET Дата = '" + parts[1] + "', [Температура (КОД)] = '" + parts[2] + "'," +
-                            //                  "Температура = '" + parts[3] + "', [U (при коде Uном)] = '" + parts[4] + "'," +
-                            //                  "[U (код)] = '" + parts[5] + "', [U (измеренное)] = '" + parts[6] + "'," +
-                            //                  "[Код светодиода] = '" + parts[7] + "', Примечание = '" + parts[8] + "' WHERE [Номер БД] = '" + parts[0] + "'";
+                            var command2_sv_0 = new OleDbCommand();
+                            command2_sv_0.Connection = conn_tabl_sv;
+                            if (del)
+                            {
+                                command2_sv_0.CommandText = "DELETE FROM [Термокалибровка] WHERE [Номер_БД]=?";
+                                command2_sv_0.Parameters.AddWithValue("?", item.BD);
 
-                    
-                            command2_sv.Parameters.Add("@ID_01", OleDbType.VarChar, 50); // [Номер БД] (Текстовый, 50)
-                            command2_sv.Parameters.Add("@ID_02", OleDbType.DBDate, 50); // [Дата] (Дата/время)
-                            command2_sv.Parameters.Add("@ID_03", OleDbType.Integer); // [Температура (КОД)] (Числовой, целое, авто) 
-                            command2_sv.Parameters.Add("@ID_04", OleDbType.Double); // Температура  (Числовой, Одинарное с плавающей точкой, авто) 
-                            command2_sv.Parameters.Add("@ID_05", OleDbType.Integer); // [U ] (Числовой, целое, авто) 
-                            command2_sv.Parameters.Add("@ID_06", OleDbType.Integer); // [U (код)] (Числовой, целое, авто) 
-                            command2_sv.Parameters.Add("@ID_07", OleDbType.Integer); // [U (измеренное)] (Числовой, целое, авто) 
-                            command2_sv.Parameters.Add("@ID_08", OleDbType.Integer); // [Код светодиода] (Числовой, Длинное целое, авто)
-                            command2_sv.Parameters.Add("@ID_09", OleDbType.VarChar, 250); // [Примечание] (Текстовый, 250)
-                    command2_sv.Parameters["@ID_01"].Value = items[i].Pole_01;
-                    command2_sv.Parameters["@ID_02"].Value = items[i].Pole_02;
-                    command2_sv.Parameters["@ID_03"].Value = items[i].Pole_03;
-                    command2_sv.Parameters["@ID_04"].Value = items[i].Pole_04;
-                    command2_sv.Parameters["@ID_05"].Value = items[i].Pole_05;
-                    command2_sv.Parameters["@ID_06"].Value = items[i].Pole_06;
-                    command2_sv.Parameters["@ID_07"].Value = items[i].Pole_07;
-                    command2_sv.Parameters["@ID_08"].Value = items[i].Pole_08;
-                    command2_sv.Parameters["@ID_09"].Value = items[i].Pole_09;
-                    int com2_rez_sv = command2_sv.ExecuteNonQuery();
-                    
+                                del = false;
+
+                                int com2_rez_sv_0 = command2_sv_0.ExecuteNonQuery();
+                                command2_sv_0.Parameters.Clear();
+
+                                Console.WriteLine("--->" + com2_rez_sv_0);
+                              
+                            }
+                            
+                                command2_sv.CommandText = "INSERT INTO [Термокалибровка] ([Дата], [Температура_(КОД)]," +
+                                    "[Температура_(Проц)], [U_(при_коде_Uном)], [U_(код)], [U_(измеренное)]," +
+                                    "[Код_светодиода], [Примечание], [Номер_БД]) VALUES (?,?,?,?,?,?,?,?,?)";
+                            
+                                command2_sv.Parameters.AddWithValue("?", item.Data);
+                                command2_sv.Parameters.AddWithValue("?", item.T_cod);
+                                command2_sv.Parameters.AddWithValue("?", item.T_proz);
+                                command2_sv.Parameters.AddWithValue("?", item.U_sh);
+                                command2_sv.Parameters.AddWithValue("?", item.U_cod);
+                                command2_sv.Parameters.AddWithValue("?", item.U_izm);
+                                command2_sv.Parameters.AddWithValue("?", item.Sv);
+                                command2_sv.Parameters.AddWithValue("?", item.Prim);
+                                command2_sv.Parameters.AddWithValue("?", item.BD);
+                            
+                            int com2_rez_sv = command2_sv.ExecuteNonQuery();
+                            command2_sv.Parameters.Clear();
+
                             Console.WriteLine("--->" + com2_rez_sv);
                         }
                         catch (Exception Ex)
                         {
-                            //MessageBox.Show(Ex.ToString());
-                            //return;
+                            MessageBox.Show(Ex.ToString());
+                            return;
                         }
                         finally
                         {
                             conn_tabl_sv.Close();
                         }
-             }
-            
+                    }
+                    one = true;
+                    
+                }
+                string file = Path.GetFileName(fil);
+                string newPath = Path.Combine(@"D:\peremesti", file);
+                File.Move(fil, newPath);
+            }
         }
+
+       
+    }
         
     }
 
-    struct TPolya_Termokalibrovka
-    {
-        public string Pole_01; // [Номер БД] (Текстовый, 50)
-        public DateTime Pole_02; // [Дата] (Дата/время)
-        public int Pole_03; // [Температура (КОД)] (Числовой, целое, авто)
-        public float Pole_04; // [Температура (Проц)] (Числовой, Одинарное с плавающей точкой)
-        public int Pole_05; // [U (код)] (Числовой, целое, авто)
-        public int Pole_06; // [U (ШИМ)] (Числовой, целое, авто)
-        public int Pole_07; // [U (измеренное)] (Числовой, целое, авто)
-        public int Pole_08; // [Код светодиода] (Числовой, Длинное целое, авто)
-        public string Pole_09; // [Примечание] (Текстовый, 250)
 
-        public TPolya_Termokalibrovka(string v): this()
-        {
-            
-        }
-    }
-}
