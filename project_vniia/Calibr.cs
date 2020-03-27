@@ -126,7 +126,8 @@ namespace project_vniia
                         }
                     }
                     one = true;
-                    
+                 
+                    ///ыфвавщшлоыващшоыващш
                 }
                 string file = Path.GetFileName(fil);
                 string newPath = Path.Combine(@"D:\peremesti", file);
