@@ -53,15 +53,19 @@ namespace project_vniia
             List<string> Fil = Directory.GetFiles(@"D:\Vnesenie_v_base\Calibr","*.log").ToList<string>();
             foreach (var fil in Fil)
             {
+                string[] allStringFromFile = File.ReadAllLines(fil, Encoding.Default);
+
+                int len = allStringFromFile.Length;
+
                 items.Clear();
                 one = false;
-                StreamReader sr = new StreamReader(fil);
-                while (!sr.EndOfStream)
+                
+                for (int i = 0; i < len; i++)
                 {
-                    items.Add(new Item(sr.ReadLine()));
+                    items.Add(new Item(allStringFromFile[i]));
                     one = true;
                 }
-                sr.Close();
+                
                 one = false;
                 bool del = true;
                 foreach (Item item in items)

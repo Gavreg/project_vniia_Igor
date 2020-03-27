@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.OleDb;
-using System.IO;
-
+using System.Linq;
+using System.Windows.Forms.VisualStyles;
+using PickBoxTest;
 
 namespace project_vniia
 {
@@ -24,35 +20,47 @@ namespace project_vniia
         "SELECT * FROM [КАНы]","SELECT * FROM [ОперацииМетро]","SELECT * FROM [Проверка]",
             "SELECT * FROM [Проверка ФЭУ]","SELECT * FROM [ПроверкаТСРМ61]","SELECT * FROM [Работы по БД]",
         "SELECT * FROM [Системы в сборе]","SELECT * FROM [Термокалибровка] ORDER BY Номер_БД ASC",
-        "SELECT * FROM Блоки ORDER BY Номер_БД ASC"};
+        "SELECT * FROM Блоки ORDER BY [Номер БД] ASC"};
 
-        public static string conString, data1;
+        public static string  data1;
         Dictionary<string, DataSet> dic = new Dictionary<string, DataSet>();
-        public static string filePath = @"D:\project_vniia111\change_2_rows.txt";
+        public static string filePath = @"D:\project_vniia_комп\change_2_rows.txt";
         public static string filePath_calibr = @"D:\project_vniia111\calibration_check.txt";
-        
+
+
+        //
+        // Create an instance of the PickBox class
+        //
+        private PickBox pb = new PickBox();
+
+        public static string conString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\\Users\\gavre\\Desktop\\provdataset_naow\\TCPM82_New.mdb";
+        private OleDbConnection dbCon;
+
         public Form1()
         {
             InitializeComponent();
 
-            dataGridView1.CellEndEdit += DataGridView1_CellEndEdit;
+            //for (int t = 8; this.Controls[t] != this.Controls[10]; t++)
+            //{
+            //    Control c = this.Controls[t];
+            //    pb.WireControl(c);
+            //}
+
+           
             dataGridView1.DataError += new DataGridViewDataErrorEventHandler(DataGridView1_DataError);
             dataGridView2.DataError += new DataGridViewDataErrorEventHandler(DataGridView2_DataError);
             dataGridView2.RowPrePaint += DataGridView2_RowPrePaint;
             dataGridView1.RowPrePaint += DataGridView1_RowPrePaint;
-            MouseUp += Form1_MouseUp;
-            FormClosed += Form1_FormClosed;
-            dataGridView1.DragDrop += DataGridView1_DragDrop;
-            dataGridView1.RowsAdded += DataGridView1_RowsAdded;
-            ///
+           
+           ///
             comboBox1.Items.Clear();
 
             //if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             //{
-            OleDbConnection dbCon = new OleDbConnection(
+
             // @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + openFileDialog1.FileName);
             //conString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + openFileDialog1.FileName;
-            conString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:\\TCPM82_New.mdb");
+            dbCon = new OleDbConnection(conString);
             dbCon.Open();
             DataTable tbls = dbCon.GetSchema("Tables", new string[] { null, null, null, "TABLE" }); //список всех таблиц
             foreach (DataRow row in tbls.Rows)
@@ -69,13 +77,20 @@ namespace project_vniia
                     {
                         if (cmdText[i].Contains(str))
                         {
-                            OleDbDataAdapter dataAdapter_ = new OleDbDataAdapter(cmdText[i], conString);
-                            ds = new DataSet();
-                            dic["[" + str + "]"] = ds;
-                            dataAdapter_.Fill(ds, "[" + str + "]");
-                            _adap[i] = dataAdapter_;
+                            if (!dic.ContainsKey("[" + str + "]"))
+                            {
+                                OleDbDataAdapter dataAdapter_ = new OleDbDataAdapter(String.Format("SELECT * FROM {0}", "[" + str + "]"), conString);
+                               
+                                ds = new DataSet();
+                                dic["[" + str + "]"] = ds;
+                                dataAdapter_.Fill(ds,   str );
+                                _adap[i] = dataAdapter_;
+                                break;
+                            }
                         }
                     }
+                    else 
+                        break;
                 }
             }
             comboBox1.SelectedItem = comboBox1.Items[0];
@@ -102,16 +117,7 @@ namespace project_vniia
             }
             
         }
-
-        private void DataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            //dataGridView1.EndEdit();
-            //ds=dic["Блоки"];
-            //_ad.UpdateCommand = new OleDbCommandBuilder(_ad).GetUpdateCommand();
-            //_ad.Update(ds.Tables["UnitTest"]);
-            /////меняет и в базе банных
-        }
-
+        
         private void DataGridView1_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
         {
             int index = e.RowIndex;
@@ -119,74 +125,10 @@ namespace project_vniia
             object header = this.dataGridView1.Rows[index].HeaderCell.Value;
             if (header == null || !header.Equals(indexStr))
                 this.dataGridView1.Rows[index].HeaderCell.Value = indexStr;
-
         }
-
-        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            //работает- update только с таблицей Блоки переделала названия столбцов
-            //НЕ работает после добавления строки-возможно из-за того, 
-            //что изначально не прогружается полностью таблица  
-            //НЕТ проблема не в выгрузке- проверено на другой таблице
-
-            ///клип what is sqlcommandbuilder
-
-        }
-       
         
-        private void DataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
-        {
-            //int index = e.RowIndex;
-            
-            //if (index > 1)
-            //{
-            //    index--;
-            //    var row = dataGridView1.Rows[index];
-
-            //    var row1 = dataGridView1.Rows[index - 1];
-            //    var a = row1.Cells[0].Value;
-            //    var b = row1.Cells[1].Value;
-            //    string aaa = a.ToString();
-            //    var t = aaa.ToCharArray().All(char.IsDigit);
-            //    Console.WriteLine(t);
-
-            //    if (t)
-            //    {
-            //        int aa = Convert.ToInt32(a);
-            //        a = aa + 1;
-            //    }
-            //    else
-            //    {if (tt2 == 0)
-            //        {
-            //            a = aaa + ttt;
-            //            aaa= a.ToString();
-            //            tt = Convert.ToChar("0");
-            //            ttt = aaa.IndexOf(tt);
-            //        }
-
-            //        else
-            //        {
-                         
-            //            tt= Convert.ToChar(aaa.Substring(ttt));
-            //            ttt_ = Convert.ToInt32(tt);
-            //            ttt_++;
-            //            tt1 = Convert.ToChar(ttt_);
-            //            aaa = aaa.Replace(tt, tt1);
-            //            a = aaa;
-                        
-            //        }
-            //        tt2++;
-            //    }
-            //    row.Cells[0].Value = a;
-            //    row.Cells[1].Value = b;
-            //    row.Cells[5].Value = "п. 561";
-            //}
-
-        }
-
         private void DataGridView2_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
         {
-
             int index = e.RowIndex;
             string indexStr = (index + 1).ToString();
             object header = this.dataGridView2.Rows[index].HeaderCell.Value;
@@ -195,28 +137,7 @@ namespace project_vniia
 
         }
 
-        private void DataGridView1_DragDrop(object sender, DragEventArgs e)
-        {
-            DataGridView.HitTestInfo testInfo = dataGridView1.HitTest(e.X, e.Y);
-        }
-
-        private void Form1_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-            {
-                dataGridView1.Width += 350;
-                dataGridView2.Location = new Point(dataGridView1.Location.X + dataGridView1.Width + 3, dataGridView1.Location.Y);
-
-            }
-            else if (e.Button == MouseButtons.Left)
-            {
-                dataGridView1.Width -= 350;
-                // dataGridView2.SizeChanged
-                dataGridView2.Location = new Point(dataGridView1.Location.X + dataGridView1.Width + 3, dataGridView1.Location.Y);
-                dataGridView2.Width += 350;
-
-            }
-        }
+       
         private void DataGridView2_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
             //MessageBox.Show("Ошибка");
@@ -240,10 +161,8 @@ namespace project_vniia
             if (dataGridView1.Columns.Contains("s_Lineage") == true)
                 dataGridView1.Columns.Remove("s_Lineage");
             Datagrid_columns_delete();
-
             
-
-            button_calibr.PerformClick();
+            //button_calibr.PerformClick();
         }
 
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -257,7 +176,6 @@ namespace project_vniia
             Datagrid_columns_delete();
             if (flag_filtr)
                 button_filtr.PerformClick();
-            
         }
         public void Datagrid_columns_delete()
         {
@@ -301,7 +219,6 @@ namespace project_vniia
                 bool f = true;
                 foreach (var c in r.ItemArray)
                 {
-                    //Console.Write (c.ToString() + " "); // для проверки
                     if (c.ToString().Contains(textBox1.Text))
                     {
                         f = false;
@@ -371,7 +288,7 @@ namespace project_vniia
         }
 
         OleDbDataAdapter _ad;
-        OleDbDataAdapter[] _adap= new OleDbDataAdapter[12];
+        OleDbDataAdapter[] _adap = new OleDbDataAdapter[12];
 
         private void добавитьБлокиToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -381,7 +298,14 @@ namespace project_vniia
             add_.Show();
         }
 
-        DataSet _dataSet;
+        class MyDB
+        {
+            public DataSet ds;
+            public OleDbDataAdapter adapter;
+            public string selectCommand;
+        }
+
+        private Dictionary<string, MyDB> myDBs = new Dictionary<string, MyDB>();
         private void but_saved_Click(object sender, EventArgs e)
         { //сохранение для таблицы(авто)
 
@@ -392,26 +316,45 @@ namespace project_vniia
             _ad.Update(ds.Tables["UnitTest"]);
             dataGridView1.DataSource = ds.Tables["UnitTest"].DefaultView;
 
+
+
             foreach (string str in comboBox1.Items)
             {
-                for (i = 0; i < 13; i++)
+                for (i = 0; i < comboBox1.Items.Count; i++)
                 {
-
+                    dbCon.Open();
                     if (cmdText[i].Contains(str))
                     {
-                        //OleDbConnection dbCon_ = new OleDbConnection(conString);
-                        //OleDbDataAdapter adapter = new OleDbDataAdapter(cmdText[i], dbCon_);
-                        
+                        if (_adap[i] == null)
+                        {
+                            dbCon.Close();
+                            continue;
+                        }
+
                         ds= dic["[" + str + "]"];
-                        //string str_ = ;
-                        _adap[i].UpdateCommand = new OleDbCommandBuilder(_adap[i]).GetDeleteCommand();
-                        _adap[i].UpdateCommand = new OleDbCommandBuilder(_adap[i]).GetInsertCommand();
+
+                        string queryString = "SELECT OrderID, CustomerID FROM Orders";
+                        var c = new OleDbCommand(String.Format("SELECT * FROM [{0}];", str), dbCon);
+                        _adap[i].SelectCommand = c;
+
                         _adap[i].UpdateCommand = new OleDbCommandBuilder(_adap[i]).GetUpdateCommand();
 
-                        _adap[i].Update(ds.Tables["[" + str + "]"]);
+                        var comand = _adap[i].UpdateCommand.CommandText;
+                        foreach (DataColumn d in ds.Tables[0].Columns)
+                        {
+                            var name = d.ColumnName;
+                            if (name.Contains(" "))
+                                comand = comand.Replace(name, "[" + name + "]");
+                        }
+                        _adap[i].UpdateCommand.CommandText = comand;
+                        
+                        _adap[i].Update(ds.Tables[0]);
                     }
+                    dbCon.Close();
+
                 }
             };
+           
             
         }
 
@@ -452,6 +395,7 @@ namespace project_vniia
             }
         }
 
+        #region cal_f
         //static List<string> items = new List<string>();
         //public void calibr_filtr()//для нахождения идентиф для Calibr
         //{
@@ -501,39 +445,32 @@ namespace project_vniia
         //    for (i=0;i<8;i++)
         //    MessageBox.Show(table2.Rows[i][0].ToString());
         //}
-
+        #endregion
         private void button_calibr_Click(object sender, EventArgs e)
         {
-            //Form_calibr calibr = new Form_calibr();
-            //calibr.Show();
+            
+            Proverka proverka = new Proverka();
+            proverka.Main_Proverka(this);
 
             //ready and work
-            Calibr calibr = new Calibr();
-            calibr.Main_calibr(this);
+            //Calibr calibr = new Calibr();
+            //calibr.Main_calibr(this);
 
-            Zamech_BD zamech_BD = new Zamech_BD();
-            zamech_BD.Main_Zamech_BD(this);
-
+            //Zamech_BD zamech_BD = new Zamech_BD();
+            //zamech_BD.Main_Zamech_BD(this);
         }
        
        
         private void button_change_Click(object sender, EventArgs e)
-        {//рабочий-раскоментировать
-            //проверить как связные таблицы обновляются!!!!
+        {
             Form_cod cod = new Form_cod();
             cod.set = this.dic;
-            cod.But_peregruzka = this.but_peregruzka;
             cod.Show();
-            but_peregruzka.Visible = true;
            
-            
-            /// добавить текст файл с записями о замене->+
-            
-            
+            /// добавить текст файл с записями о замене->+ 
         }
-
     }
-    //update-не везде изменяет (Акт2)
+    
 
     //замену изменить+ изменить пробелы на подчёркивание в запросах
     /// калибровку закончила
@@ -541,4 +478,6 @@ namespace project_vniia
     //сделать проверку на наличие при добавление новых блоков->сделала
 
     // создать блоки и проверить класс замечания по бд->+
+
+    // поменять streamreader на File там где нужен русский текст
 }

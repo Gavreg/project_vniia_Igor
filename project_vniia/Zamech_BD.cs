@@ -19,16 +19,13 @@ namespace project_vniia
 
         public Item_Zamech_BD(string str)
         {
-            if (Calibr.one == true)
-            {
                 string[] parts = str.Split('\t');
                 BD = parts[0];
                 BD_ = BD;
                 Data = Convert.ToDateTime(parts[3]);
                 Cs_Unom = int.Parse(parts[4]);
                 Prim = parts[5];
-            }
-
+            
         }
     } 
     class Zamech_BD
@@ -40,16 +37,17 @@ namespace project_vniia
             List<string> Fil = Directory.GetFiles(@"D:\Vnesenie_v_base\zamech_bd", "*.log").ToList<string>();
             foreach (var fil in Fil)
             {
+                string[] allStringFromFile = File.ReadAllLines(fil, Encoding.Default);
+
+                int len = allStringFromFile.Length;
+
                 items.Clear();
-
-                StreamReader sr = new StreamReader(fil);
-                while (!sr.EndOfStream)
+                
+                for (int i = 0; i < len; i++)
                 {
-                    items.Add(new Item_Zamech_BD(sr.ReadLine()));
+                    items.Add(new Item_Zamech_BD(allStringFromFile[i]));
                 }
-                sr.Close();
-
-
+                
                 foreach (Item_Zamech_BD item in items)
                 {
 
@@ -83,6 +81,8 @@ namespace project_vniia
                         conn_tabl_sv.Close();
                     }
                 }
+                //раскоментировать
+
                 //string file = Path.GetFileName(fil);
                 //string newPath = Path.Combine(@"D:\peremesti", file);
                 //File.Move(fil, newPath);

@@ -89,8 +89,10 @@
     </Compile>
     <Compile Include="Lib\GuiHelper.cs" />
     <Compile Include="MessageService.cs" />
+    <Compile Include="PickBox.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Proverka.cs" />
     <Compile Include="TCPM82_NewDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
